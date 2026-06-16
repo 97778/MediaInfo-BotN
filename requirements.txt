@@ -1,6 +1,7 @@
 pyrofork
 tgcrypto
 motor==3.5.1
+psutil
 pymongo==4.8.0
 aiohttp==3.10.5
 aiofiles==24.1.0
