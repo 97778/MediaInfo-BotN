@@ -14,7 +14,7 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from aiohttp import web
 from aiofiles import open as aiopen
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
-from pyrogram import Client, filters, idle
+from pyrogram import Client, filters
 from pyrogram.enums import ParseMode
 from functools import lru_cache
 from typing import Optional
@@ -868,7 +868,7 @@ async def _channel_worker(channel_id: int):
     finally:
         channel_workers[channel_id] = False
         # Re-arm if new messages arrived after the queue drained.
-        if channel_queues[channel_id] and not channel_workers[channel_id]:
+        if channel_queues[channel_id]:
             channel_workers[channel_id] = True
             asyncio.create_task(_channel_worker(channel_id))
 
@@ -1181,11 +1181,8 @@ async def main():
     scheduler.add_job(process_retry_queue, "interval", minutes=2)
     scheduler.start()
 
-    await idle()
-
-    scheduler.shutdown(wait=False)
-    await app.stop()
+    await asyncio.Event().wait()
 
 
 if __name__ == "__main__":
-    asyncio.run(main())
+    app.run(main())
