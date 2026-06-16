@@ -1,0 +1,14 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.env
+*.session
+*.session-journal
+*.bin
+probe_*.bin
+info_*.bin
+*.log
+.idea/
+.vscode/
